@@ -1,0 +1,65 @@
+@import url("./reset-styles.css");
+@import url("./fonts.css");
+
+:root {
+  /* colors */
+  --main-color: #1e272e;
+  --secondary-color: #485460;
+  --highlight-color: #0fbcf9;
+  --opposite-highlight-color: #ffffff;
+
+  /* buttons */
+  --icon-size: 1.2rem;
+  --white-filter: invert(100%) sepia(94%) saturate(0%) hue-rotate(248deg)
+    brightness(106%) contrast(106%);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: none;
+  border: none;
+}
+
+header {
+  padding: 0.5rem 4rem;
+  background-color: #0fbcf9;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#logo {
+  font-size: 1.3rem;
+  color: #fff;
+  letter-spacing: normal;
+  /* letter-spacing: 0.2rem; */
+  font-family: "Roboto";
+  font-weight: 900;
+}
+
+#doing-span {
+  color: #0fbcf9;
+  background-color: #fff;
+}
+
+.btn {
+  color: var(--opposite-highlight-color);
+  background-color: transparent;
+}
+
+#profile-btn {
+  filter: var(--white-filter);
+  width: var(--icon-size);
+  height: var(--icon-size);
+  background-image: url("./images/profile-icon.svg");
+}
+
+#settings-btn {
+  filter: var(--white-filter);
+  width: var(--icon-size);
+  height: var(--icon-size);
+  background-image: url("./images/settings-icon.svg");
+}
