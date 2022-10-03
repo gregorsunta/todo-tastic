@@ -2,29 +2,43 @@
 @import url("./fonts.css");
 
 :root {
+  /* font */
+  font-family: "Roboto";
+  font-weight: 500;
+  box-sizing: border-box;
+
   /* colors */
   --main-color: #1e272e;
   --secondary-color: #485460;
-  --highlight-color: #0fbcf9;
-  --opposite-highlight-color: #ffffff;
+  --highlight-color: #05c46b;
+  --gray-color: #485460;
+  --white-color: ;
+  --fade-color: #f1f1f1;
 
   /* buttons */
   --icon-size: 1.2rem;
   --white-filter: invert(100%) sepia(94%) saturate(0%) hue-rotate(248deg)
     brightness(106%) contrast(106%);
+
+  /* layout */
+  --common-padding: 2rem;
 }
 
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  background-color: none;
+  background-color: transparent;
   border: none;
+  color: var(--main-color);
+}
+
+h1 {
+  font-size: 2rem;
 }
 
 header {
   padding: 0.5rem 4rem;
-  background-color: #0fbcf9;
+  background-color: var(--highlight-color);
 
   display: flex;
   justify-content: space-between;
@@ -33,33 +47,79 @@ header {
 
 #logo {
   font-size: 1.3rem;
-  color: #fff;
-  letter-spacing: normal;
-  /* letter-spacing: 0.2rem; */
-  font-family: "Roboto";
+  /* color: #fff; */
   font-weight: 900;
 }
 
+#to-span {
+  color: white;
+}
+
 #doing-span {
-  color: #0fbcf9;
-  background-color: #fff;
+  color: white;
 }
 
-.btn {
-  color: var(--opposite-highlight-color);
-  background-color: transparent;
+.navigation-header {
+  /* width: 100px; */
+  display: flex;
+  gap: 1rem;
 }
 
-#profile-btn {
+.header-btn {
   filter: var(--white-filter);
   width: var(--icon-size);
   height: var(--icon-size);
+}
+#add-btn {
+  background-image: url("./images/add-icon.svg");
+}
+
+#profile-btn {
   background-image: url("./images/profile-icon.svg");
 }
 
 #settings-btn {
-  filter: var(--white-filter);
-  width: var(--icon-size);
-  height: var(--icon-size);
   background-image: url("./images/settings-icon.svg");
+}
+
+#main {
+  display: flex;
+}
+
+#left-nav {
+  padding: var(--common-padding);
+
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 17vw;
+  text-align: left;
+  background-color: var(--fade-color);
+}
+
+#left-nav > .btn {
+  color: var(--main-color);
+  text-align: left;
+  padding: 0.5rem;
+}
+
+#content-container {
+  padding: var(--common-padding);
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
+#content {
+  display: flex;
+  flex-direction: column;
+}
+
+footer {
+  background-color: var(--highlight-color);
+  min-height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

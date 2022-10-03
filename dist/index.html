@@ -5,20 +5,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./style.css" />
-    <title>Todotastic</title>
+    <title>toDoing</title>
   </head>
   <body>
     <header id="header">
       <div id="logo">
-        <span id="to-span">to</span><span id="doing-span">doing</span>
+        <span id="to-span">to</span><span id="doing-span">Doing</span>
       </div>
       <div class="navigation-header">
-        <button class="btn" id="settings-btn"></button>
-        <button class="btn" id="profile-btn"></button>
+        <button class="header-btn" id="add-btn"></button>
+        <button class="header-btn" id="settings-btn"></button>
+        <button class="header-btn" id="profile-btn"></button>
       </div>
     </header>
-    <nav id="left-nav"></nav>
-    <main id="content"></main>
-    <footer></footer>
+    <div id="main">
+      <nav id="left-nav"></nav>
+      <div id="content-container">
+        <h1>Content</h1>
+        <div id="content"></div>
+      </div>
+    </div>
+
+    <footer>
+      <p>This is the footer</p>
+    </footer>
   </body>
 </html>
