@@ -15,7 +15,7 @@
   \**********************/
 /***/ (() => {
 
-eval("\n\n//# sourceURL=webpack://todo-tastic/./src/index.js?");
+eval("//this index file starts the whole web app\n\n\n//# sourceURL=webpack://todo-tastic/./src/index.js?");
 
 /***/ })
 

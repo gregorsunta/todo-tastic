@@ -11,9 +11,11 @@
   --main-color: #1e272e;
   --secondary-color: #485460;
   --highlight-color: #05c46b;
+  --fade-highlight-color: #3e4c45;
   --gray-color: #485460;
-  --white-color: ;
-  --fade-color: #f1f1f1;
+  --white-color: #ffffff;
+  --fade-color: #cccccc;
+  --extra-fade-color: #f1f1f1;
 
   /* buttons */
   --icon-size: 1.2rem;
@@ -94,7 +96,7 @@ header {
   flex-direction: column;
   width: 17vw;
   text-align: left;
-  background-color: var(--fade-color);
+  background-color: var(--extra-fade-color);
 }
 
 #left-nav > .btn {
@@ -122,4 +124,63 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+#task-input-modal {
+  /* width: 500px; */
+  /* height: 300px; */
+  padding: var(--common-padding);
+  background-color: var(--white-color);
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0px 1px 10px var(--fade-color);
+
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+#task-input-modal > h2 {
+  color: var(--fade-highlight-color);
+  font-weight: 500;
+  font-size: 24px;
+  /* text-align: center; */
+}
+
+#task-input-form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+input {
+  background-color: var(--extra-fade-color);
+  border-radius: 5px;
+}
+
+.task-input {
+  display: flex;
+  gap: 20px;
+}
+
+#task-priority-section > button {
+  width: 30px;
+  height: 20px;
+  border-radius: 5px;
+  border: 2px solid var(--main-color);
+}
+#task-priority-section > #low-priority {
+  background-color: #05c46b;
+}
+#task-priority-section > #medium-priority {
+  background-color: #eafc06;
+}
+#task-priority-section > #high-priority {
+  background-color: #f9061d;
+}
+#task-priority-section > #critical-priority {
+  background-color: #940cbf;
 }

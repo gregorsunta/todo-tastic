@@ -8,6 +8,7 @@
     <title>toDoing</title>
   </head>
   <body>
+    <script src="main.js"></script>
     <header id="header">
       <div id="logo">
         <span id="to-span">to</span><span id="doing-span">Doing</span>
@@ -25,7 +26,30 @@
         <div id="content"></div>
       </div>
     </div>
-
+    <div id="task-input-modal">
+      <h2>New task</h2>
+      <form id="task-input-form">
+        <div class="task-input">
+          <label for="task-name">Task name:</label>
+          <input id="task-name" name="task-name" type="text" required />
+        </div>
+        <div class="task-input">
+          <label for="project-name">Project name:</label>
+          <input id="project-name" name="project-name" type="text" required />
+        </div>
+        <div class="task-input" id="task-priority-section">
+          Task priority:
+          <button class="priority-button" id="low-priority"></button>
+          <button class="priority-button" id="medium-priority"></button>
+          <button class="priority-button" id="high-priority"></button>
+          <button class="priority-button" id="critical-priority"></button>
+        </div>
+        <div class="task-input">
+          <label for="task-date">Due date</label>
+          <input id="task-date" name="task-date" type="date" required />
+        </div>
+      </form>
+    </div>
     <footer>
       <p>This is the footer</p>
     </footer>

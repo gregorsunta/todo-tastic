@@ -1,5 +1,1 @@
-import newTask from "./new-task";
-
-function () {
-    
-}
+//this index file starts the whole web app
