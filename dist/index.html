@@ -8,7 +8,7 @@
     <title>toDoing</title>
   </head>
   <body>
-    <script src="main.js"></script>
+    <script src="main.js" defer></script>
     <header id="header">
       <div id="logo">
         <span id="to-span">to</span><span id="doing-span">Doing</span>
@@ -26,28 +26,44 @@
         <div id="content"></div>
       </div>
     </div>
-    <div id="task-input-modal">
-      <h2>New task</h2>
-      <form id="task-input-form">
+    <div class="modal hide">
+      <div class="modal-top">
+        <h2 class="modal-title">New task</h2>
+        <button class="modal-close-btn"></button>
+      </div>
+      <form id="modal-task-form">
         <div class="task-input">
           <label for="task-name">Task name:</label>
           <input id="task-name" name="task-name" type="text" required />
         </div>
         <div class="task-input">
           <label for="project-name">Project name:</label>
-          <input id="project-name" name="project-name" type="text" required />
+          <input id="project-name" name="project-name" type="text" />
         </div>
-        <div class="task-input" id="task-priority-section">
+        <div class="task-input task-priority-section">
           Task priority:
-          <button class="priority-button" id="low-priority"></button>
-          <button class="priority-button" id="medium-priority"></button>
-          <button class="priority-button" id="high-priority"></button>
-          <button class="priority-button" id="critical-priority"></button>
+          <button class="priority-btn" id="low-priority" type="button"></button>
+          <button
+            class="priority-btn"
+            id="medium-priority"
+            type="button"
+          ></button>
+          <button
+            class="priority-btn"
+            id="high-priority"
+            type="button"
+          ></button>
+          <button
+            class="priority-btn"
+            id="critical-priority"
+            type="button"
+          ></button>
         </div>
         <div class="task-input">
           <label for="task-date">Due date</label>
-          <input id="task-date" name="task-date" type="date" required />
+          <input id="task-date" name="task-date" type="date" />
         </div>
+        <button class="modal-confirm-btn" type="submit">Add new task</button>
       </form>
     </div>
     <footer>
