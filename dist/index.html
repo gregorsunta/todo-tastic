@@ -37,8 +37,8 @@
           <input id="task-name" name="task-name" type="text" required />
         </div>
         <div class="task-input">
-          <label for="project-name">Project name:</label>
-          <input id="project-name" name="project-name" type="text" />
+          <label for="task-description">Description:</label>
+          <input id="task-description" name="task-description" type="text" />
         </div>
         <div class="task-input task-priority-section">
           Task priority:
@@ -62,6 +62,11 @@
         <div class="task-input">
           <label for="task-date">Due date</label>
           <input id="task-date" name="task-date" type="date" />
+        </div>
+        <div class="task-input">
+          <label for="task-project">Select project: </label>
+          <input type="text" list="task-project" />
+          <datalist id="task-project"> </datalist>
         </div>
         <button class="modal-confirm-btn" type="submit">Add new task</button>
       </form>

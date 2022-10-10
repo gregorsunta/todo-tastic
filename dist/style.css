@@ -121,10 +121,22 @@ header {
   display: flex;
   flex-direction: column;
 }
+#content-container > h2 {
+  font-weight: 900;
+}
 
 #content {
   display: flex;
   flex-direction: column;
+}
+
+.task-container {
+  display: flex;
+  border-bottom: 2px solid var(--fade-highlight-color);
+}
+
+.task-data {
+  padding: var(--small-padding);
 }
 
 /* || FOOTER */

@@ -3,8 +3,8 @@ import UI from "./UI";
 
 class TaskList {
   static taskArray = [];
-  static addNewTask = function () {
-    const input = UI.getModalInput();
+  static addNewTask = function (task) {
+    const input = task;
     console.log(input);
     const newTask = new Task(...input);
     TaskList.taskArray.push(newTask);

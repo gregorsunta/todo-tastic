@@ -1,5 +1,6 @@
 import Task from "./Task";
 import TaskList from "./TaskList";
+import Project from "./Project";
 
 export default class UI {
   static addMainEventListeners = function () {
@@ -10,10 +11,12 @@ export default class UI {
   };
 
   static addModalEventListeners = function () {
+    const content = document.querySelector("#content");
     const modal = document.querySelector(".modal");
     const closeModalBtn = document.querySelector(".modal-close-btn");
     // const confirmModalBtn = document.querySelector(".modal-confirm-btn");
     const priorityBtns = document.querySelectorAll(".priority-btn");
+    const taskForm = document.querySelector("#modal-task-form");
 
     closeModalBtn.addEventListener("click", UI.closeModal);
 
@@ -25,11 +28,15 @@ export default class UI {
       });
     });
 
-    modal.addEventListener("submit", function (e) {
+    taskForm.addEventListener("submit", function (e) {
       e.preventDefault();
-      TaskList.addNewTask();
+      TaskList.addNewTask(UI.getModalInput()[5]);
+      Project.addNewProject();
+      taskForm.reset();
+      UI.removeChildrenFrom(content);
+      UI.refreshProjectsInForm();
       UI.closeModal();
-      UI.resetModal();
+      UI.displayTasks();
     });
   };
 
@@ -37,16 +44,19 @@ export default class UI {
     const getName = function () {
       return document.getElementById("task-name").value;
     };
-    const getProject = function () {
-      return document.getElementById("project-name").value;
+    const getDescription = function () {
+      return document.getElementById("task-description").value;
     };
     const getDate = function () {
       const input = document.getElementById("task-date").value;
       return new Date(input);
     };
     const getPriority = function () {};
+    const getProject = function () {
+      return document.getElementById("task-description").value;
+    };
 
-    return [getName(), getProject(), getPriority(), getDate()];
+    return { getName, getDescription, getPriority, getDate, getProject };
   };
 
   static openModal = function () {
@@ -59,22 +69,47 @@ export default class UI {
     taskInputModal.classList.add("hide");
   };
 
-  static resetModal = function () {
-    const taskName = document.getElementById("task-name").textContent;
-    const projectName = document.getElementById("project-name").textContent;
-    const taskDate = document.getElementById("task-date").textContent;
-    const priorityBtns = Array.from(
-      document.getElementsByClassName("priority-btn")
-    );
-    console.log(priorityBtns);
-    priorityBtns.forEach((element) => {
-      (el) => /* el.removeAttribute("clicked") */ console.log("da");
+  static displayTasks = function () {
+    const contentContainer = document.querySelector("#content");
+    TaskList.taskArray.forEach((el) => {
+      const div = document.createElement("div");
+      const taskName = document.createElement("p");
+      const taskDescription = document.createElement("p");
+      const taskDate = document.createElement("p");
+      const taskPriority = document.createElement("p");
+
+      div.classList.add("task-container");
+      taskName.classList.add("task-data");
+      taskDescription.classList.add("task-data");
+      taskDate.classList.add("task-data");
+      taskPriority.classList.add("task-data");
+      taskName.textContent = el.title;
+      taskDescription.textContent = el.description;
+      taskDate.textContent = el.dueDate;
+      taskPriority;
+
+      div.appendChild(taskName);
+      div.appendChild(taskDescription);
+      div.appendChild(taskPriority);
+      div.appendChild(taskDate);
+      contentContainer.appendChild(div);
     });
   };
 
-  static populateTasks = function () {
-    const div = document.createElement("div");
-    const form = document.createElement("form");
-    const p = document.createElement("p");
+  static refreshProjectsInForm = function () {
+    const taskProject = document.getElementById("task-project");
+    UI.removeChildrenFrom(taskProject);
+    Project.projectList.forEach((el) => {
+      const option = document.createElement("option");
+      option.textContent = el;
+      taskProject.append(option);
+    });
+  };
+
+  static removeChildrenFrom = function (parent) {
+    while (parent.firstChild) {
+      console.log("removing..");
+      parent.removeChild(parent.firstChild);
+    }
   };
 }
