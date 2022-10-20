@@ -6,6 +6,8 @@
   font-family: "Roboto";
   font-weight: 500;
   box-sizing: border-box;
+  --font-size: 1rem;
+  --small-font-size: 0.8rem;
 
   /* colors */
   --main-color: #1e272e;
@@ -16,6 +18,19 @@
   --white-color: #ffffff;
   --fade-color: #cccccc;
   --extra-fade-color: #f1f1f1;
+  --green-color: #badc58;
+  --yellow-color: #f9ca24;
+  --orange-color: #f0932b;
+  --red-color: #eb4d4b;
+
+  --green-color-filter: invert(70%) sepia(66%) saturate(4380%)
+    hue-rotate(111deg) brightness(93%) contrast(101%);
+  --red-color-filter: invert(51%) sepia(84%) saturate(2437%) hue-rotate(328deg)
+    brightness(92%) contrast(100%);
+  --orange-color-filter: invert(84%) sepia(36%) saturate(6215%)
+    hue-rotate(341deg) brightness(98%) contrast(91%);
+  --yellow-color-filter: invert(87%) sepia(94%) saturate(3945%)
+    hue-rotate(333deg) brightness(100%) contrast(95%);
 
   /* buttons */
   --icon-size: 1.2rem;
@@ -28,7 +43,8 @@
   --small-border-radius: 0.5rem;
   --large-padding: 4rem;
   --common-padding: 2rem;
-  --small-padding: 0.5rem;
+  --small-padding: 2rem;
+  --smaller-padding: 0.5rem;
 }
 
 * {
@@ -116,6 +132,19 @@ header {
   text-align: left;
   padding: 0.5rem;
 }
+#left-nav > .task-group {
+  color: var(--secondary-color);
+  padding: var(--smaller-padding);
+  /* padding-bottom: var(--small-padding); */
+}
+#left-nav > .task-group > .task-container {
+  padding: var(--smaller-padding) 0 0 var(--smaller-padding);
+}
+
+.task-group > .task-container > .task-name {
+  font-size: var(--small-font-size);
+  color: #940cbf;
+}
 
 #content-container {
   padding: var(--common-padding);
@@ -136,8 +165,8 @@ header {
   flex-direction: column;
 }
 
-.task-container {
-  padding: var(--small-padding);
+#content > .task-container {
+  padding: var(--smaller-padding);
   height: var(--common-padding);
   display: flex;
   justify-content: space-between;
@@ -148,7 +177,12 @@ header {
 .task-container > .left-side {
   display: flex;
   align-items: center;
-  gap: var(--small-padding);
+  gap: var(--smaller-padding);
+}
+.task-container > .right-side {
+  display: flex;
+  align-items: center;
+  gap: var(--smaller-padding);
 }
 
 .task-priority {
@@ -156,17 +190,23 @@ header {
   height: var(--small-icon-size);
   width: var(--small-icon-size);
 }
-.task-priority > .low {
+.task-delete {
+  background-image: url("./images/delete-icon.svg");
+  height: var(--small-icon-size);
+  width: var(--small-icon-size);
 }
-.task-priority > .medium {
+.task-priority.low {
+  filter: var(--green-color-filter);
 }
-.task-priority > .high {
+.task-priority.medium {
+  filter: var(--orange-color-filter);
 }
-.task-priority > .critical {
+.task-priority.high {
+  filter: var(--red-color-filter);
 }
 
 .task-data {
-  padding: var(--small-padding);
+  padding: var(--smaller-padding);
 }
 
 /* || FOOTER */
@@ -238,12 +278,12 @@ footer {
 }
 
 .task-priority-section > button {
-  width: 1.5rem;
-  height: 1.5rem;
-  border-radius: var(--common-border-radius);
 }
 
 .priority-btn {
+  width: var(--icon-size);
+  height: var(--icon-size);
+  border-radius: var(--common-border-radius);
   position: relative;
   border: 3px solid var(--main-color);
 }
@@ -252,21 +292,18 @@ footer {
   border: 5px solid var(--main-color);
 }
 
-.task-priority-section > #low-priority {
-  background-color: #05c46b;
+.priority-btn.low {
+  background-color: var(--green-color);
+  /* filter: var(--green-color-filter); */
 }
-.task-priority-section > #medium-priority {
-  background-color: #eafc06;
+.priority-btn.medium {
+  background-color: var(--orange-color);
 }
-.task-priority-section > #high-priority {
-  background-color: #f9061d;
+.priority-btn.high {
+  background-color: var(--red-color);
 }
-.task-priority-section > #critical-priority {
-  background-color: #940cbf;
-}
-
 .modal-confirm-btn {
-  padding: var(--small-padding);
+  padding: var(--smaller-padding);
   border: 2px solid var(--fade-color);
   border-radius: var(--common-border-radius);
   background-color: var(--extra-fade-color);

@@ -23,14 +23,10 @@
       <nav id="left-nav">
         <div class="task-group today">Today</div>
         <div class="task-group tomorrow">Tomorrow</div>
-        <div class="task-group week">This week</div>
         <div class="task-group month">This month</div>
-        <div class="task-group priority critical-priority">
-          Critical priority
-        </div>
-        <div class="task-group priority high-priority">High priority</div>
-        <div class="task-group priority medium-priority">Medium priority</div>
-        <div class="task-group priority low-priority">Low priority</div>
+        <div class="task-group priority high">High priority</div>
+        <!-- <div class="task-group priority medium">Medium priority</div> -->
+        <!-- <div class="task-group priority low">Low priority</div> -->
       </nav>
       <div id="content-container">
         <h1>Content</h1>
@@ -53,22 +49,9 @@
         </div>
         <div class="task-input task-priority-section">
           Task priority:
-          <button class="priority-btn" id="low-priority" type="button"></button>
-          <button
-            class="priority-btn"
-            id="medium-priority"
-            type="button"
-          ></button>
-          <button
-            class="priority-btn"
-            id="high-priority"
-            type="button"
-          ></button>
-          <button
-            class="priority-btn"
-            id="critical-priority"
-            type="button"
-          ></button>
+          <button class="priority-btn low" type="button"></button>
+          <button class="priority-btn medium" type="button"></button>
+          <button class="priority-btn high" type="button"></button>
         </div>
         <div class="task-input">
           <label for="task-date">Due date</label>

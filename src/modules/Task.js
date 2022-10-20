@@ -1,16 +1,18 @@
 export default class Task {
   constructor(
-    title,
+    name,
     description = "No description.",
     priority = "No priority added.",
-    dueDate = "No date added.",
-    project = "No project added"
+    date = "No date added.",
+    project = "No project added",
+    id = "No id"
   ) {
-    this.title = title;
+    this.name = name;
     this.description = description;
     this.priority = priority;
-    this.dueDate = dueDate;
+    this.date = date;
     this.project = project;
+    this.id = id;
   }
   taskName() {
     console.log(this.title);
