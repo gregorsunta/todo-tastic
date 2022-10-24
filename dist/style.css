@@ -15,6 +15,7 @@
   --highlight-color: #05c46b;
   --fade-highlight-color: #3e4c45;
   --gray-color: #485460;
+  --fifty-gray-color: #808080;
   --white-color: #ffffff;
   --fade-color: #cccccc;
   --extra-fade-color: #f1f1f1;
@@ -35,12 +36,14 @@
   /* buttons */
   --icon-size: 1.2rem;
   --small-icon-size: 1rem;
+  --smaller-icon-size: 0.8rem;
   --white-filter: invert(100%) sepia(94%) saturate(0%) hue-rotate(248deg)
     brightness(106%) contrast(106%);
 
   /* layout */
   --common-border-radius: 2rem;
   --small-border-radius: 0.5rem;
+  --smaller-border-radius: 0.25rem;
   --large-padding: 4rem;
   --common-padding: 2rem;
   --small-padding: 2rem;
@@ -125,6 +128,7 @@ header {
   width: 17vw;
   text-align: left;
   background-color: var(--extra-fade-color);
+  /* gap: 5px; */
 }
 
 #left-nav > .btn {
@@ -135,7 +139,14 @@ header {
 #left-nav > .task-group {
   color: var(--secondary-color);
   padding: var(--smaller-padding);
+  /* border-bottom: 1.5px solid#D9D9D9; */
   /* padding-bottom: var(--small-padding); */
+}
+#left-nav > .task-group > .group-title {
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  gap: var(--smaller-padding);
 }
 #left-nav > .task-group > .task-container {
   padding: var(--smaller-padding) 0 0 var(--smaller-padding);
@@ -143,7 +154,7 @@ header {
 
 .task-group > .task-container > .task-name {
   font-size: var(--small-font-size);
-  color: #940cbf;
+  color: var(--fade-highlight-color);
 }
 
 #content-container {
@@ -163,15 +174,18 @@ header {
 #content {
   display: flex;
   flex-direction: column;
+  gap: 15px;
 }
 
 #content > .task-container {
+  border-radius: var(--smaller-border-radius);
   padding: var(--smaller-padding);
   height: var(--common-padding);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid var(--fade-color);
+  /* border-bottom: 1.5px solid #e6e6e6; */
+  box-shadow: 0 0 5px #e6e6e6;
 }
 
 .task-container > .left-side {
@@ -183,6 +197,12 @@ header {
   display: flex;
   align-items: center;
   gap: var(--smaller-padding);
+}
+.task-container > .right-side > p {
+  font-size: 0.8rem;
+  color: #1eca7a;
+  /* font-style: italic; */
+  font-weight: 500;
 }
 
 .task-priority {
@@ -314,4 +334,8 @@ footer {
 .hide {
   padding: 50px;
   display: none;
+}
+.icon {
+  height: var(--smaller-icon-size);
+  width: var(--smaller-icon-size);
 }
