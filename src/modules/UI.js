@@ -29,14 +29,14 @@ export default class UI {
 
       taskForm.addEventListener("submit", function (e) {
         e.preventDefault();
-        const taskInput = UI.DisplayFunctions.getModalInput();
+        const taskInput = UI.DisplayFunctions.getModalInput(
+          e.target.parentNode
+        );
         const curTask = new Task(...taskInput);
         TaskList.addNewTask(curTask);
 
         Project.addNewProject();
         taskForm.reset();
-        // UI.DisplayFunctions.removeChildrenFrom(content);
-        // UI.DisplayFunctions.refreshProjectsInForm();
         UI.DisplayFunctions.closeModal();
         UI.DisplayFunctions.refreshProjectsInForm();
         UI.DisplayFunctions.displayTask.displayInPriorities(curTask);
@@ -68,96 +68,160 @@ export default class UI {
     };
     const displayTask = (function () {
       const displayById = function (taskId) {
-        const _taskId = taskId;
+        const _taskId = Number(taskId);
         TaskList.rawTaskArray.forEach((task) => {
-          if (task.id == taskId) {
-            console.log(task);
-            displayTask.createMain(task);
+          if (task.id == _taskId) {
+            content.appendChild(createTaskContainer(task));
           }
         });
       };
       const displayByObj = function (taskObj) {
-        content.appendChild(createMain(taskObj));
+        content.appendChild(createTaskContainer(taskObj));
       };
-      const createMain = function (taskObj) {
-        const content = document.querySelector("#content");
+      const createTaskContainer = function (taskObj) {
+        const task = createTask(taskObj);
+        const container = document.createElement("div");
+        container.classList.add("container");
+        container.dataset.taskId = taskObj.id;
+        container.append(task);
+        return container;
+      };
+      const createTask = function (taskObj) {
         const taskContainer = document.createElement("div");
-        const leftSide = document.createElement("div");
-        const rightSide = document.createElement("div");
+        const taskNameContainer = document.createElement("div");
+        const taskDateContainer = document.createElement("div");
+        const taskPriorityContainer = document.createElement("div");
+        const taskDescriptionContainer = document.createElement("div");
         const taskName = document.createElement("p");
+        const taskNameLabel = document.createElement("p");
         const taskDescription = document.createElement("p");
+        const taskDescriptionLabel = document.createElement("p");
         const taskDate = document.createElement("p");
-        const taskPriorityImg = document.createElement("img");
-        const taskDelete = document.createElement("div");
+        const taskDateLabel = document.createElement("p");
+        const taskPriority = document.createElement("p");
+        const taskPriorityLabel = document.createElement("p");
+        const taskPriorityIcon = document.createElement("div");
+        const taskDeleteIcon = document.createElement("div");
+        const taskEditIcon = document.createElement("div");
+        const details = document.createElement("div");
+        const main = document.createElement("div");
+
         taskContainer.classList.add("main-info");
         taskContainer.classList.add("task-container");
-        leftSide.classList.add("left-side");
-        rightSide.classList.add("right-side");
+        taskNameContainer.classList.add("detail-container");
+        taskDateContainer.classList.add("detail-container");
+        taskPriorityContainer.classList.add("detail-container");
+        taskDescriptionContainer.classList.add("detail-container");
+        details.classList.add("details");
+        main.classList.add("main");
 
-        taskDelete.addEventListener("click", function (e) {
+        taskPriorityIcon.addEventListener("click", function (e) {
           e.preventDefault();
-          removeTask(e.currentTarget.parentNode.parentNode);
+          const detailsNode = e.target.parentNode.querySelector(".details");
+          toggleHide(detailsNode);
         });
-        taskPriorityImg.classList.add("task-priority");
-        taskPriorityImg.classList.add(taskObj.priority);
-        taskPriorityImg.src = "./images/right-arrow.svg";
-        taskDelete.classList.add("task-delete");
+        taskDeleteIcon.addEventListener("click", function (e) {
+          e.preventDefault();
+          removeTaskById(e.currentTarget.parentNode);
+        });
+        taskEditIcon.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.target.parentNode.parentNode.append(
+            createEditForm(e.currentTarget.parentNode.parentNode)
+          );
+        });
 
+        taskPriorityIcon.classList.add("task-priority");
+        taskPriorityIcon.classList.add(taskObj?.priority);
+        taskPriorityIcon.classList.add("icon");
+        taskEditIcon.classList.add("task-edit");
+        taskEditIcon.classList.add("icon");
+        taskDeleteIcon.classList.add("task-delete");
+        taskDeleteIcon.classList.add("icon");
+        details.classList.add("hide");
         taskName.textContent = taskObj.name;
+        taskNameLabel.textContent = "Task name: ";
+        taskNameLabel.classList.add("label");
         taskDescription.textContent = taskObj.description;
+        taskDescriptionLabel.textContent = "Task description: ";
+        taskDescriptionLabel.classList.add("label");
         taskDate.textContent = taskObj.date;
-
-        leftSide.append(taskPriorityImg, taskName);
-        rightSide.append(taskDate, taskDelete);
-
-        taskContainer.appendChild(leftSide);
-        taskContainer.appendChild(rightSide);
+        taskDateLabel.textContent = "Task date: ";
+        taskDateLabel.classList.add("label");
+        taskPriority.textContent = taskObj.priority;
+        taskPriorityLabel.textContent = "Task priority: ";
+        taskPriorityLabel.classList.add("label");
+        taskNameContainer.append(taskNameLabel, taskName);
+        taskDescriptionContainer.append(taskDescriptionLabel, taskDescription);
+        taskDateContainer.append(taskDateLabel, taskDate);
+        taskPriorityContainer.append(taskPriorityLabel, taskPriority);
+        main.append(taskName, taskDate);
+        details.append(taskDescriptionContainer, taskPriorityContainer);
+        taskContainer.append(
+          taskPriorityIcon,
+          main,
+          taskDeleteIcon,
+          taskEditIcon,
+          details
+        );
         taskContainer.dataset.taskId = taskObj.id;
         return taskContainer;
       };
       const displayInPriorities = function (taskObj) {
-        // const lowPriorityContainer = document.querySelector(".task-group.low");
-        // const mediumPriorityContainer =
-        //   document.querySelector(".task-group.medium");
-        const highPriorityContainer =
-          document.querySelector(".task-group.high");
+        const content = document.querySelector("#content");
+        const highPriorityContainer = document.querySelector(
+          ".task-group.high > .tasks-container"
+        );
         const taskContainer = document.createElement("div");
         taskContainer.classList.add("task-container");
         const taskName = document.createElement("div");
         taskName.classList.add("task-name");
         taskContainer.appendChild(taskName);
         taskContainer.dataset.taskId = taskObj.id;
+        taskName.dataset.taskId = taskObj.id;
         taskName.textContent = taskObj.name;
-        taskContainer.addEventListener("click", function (e) {
+        taskName.addEventListener("click", function (e) {
           e.preventDefault();
-          console.log(e.target);
+          removeChildrenFrom(content);
+          displayById(e.target.dataset.taskId);
         });
         if (taskObj.priority === "high") {
           highPriorityContainer.appendChild(taskContainer);
         }
-        //else if (taskObj.priority === "medium") {
-        //   mediumPriorityContainer.appendChild(taskContainer);
-        // } else if (taskObj.priority === "low") {
-        //   lowPriorityContainer.appendChild(taskContainer);
-        // }
       };
       const displayInDates = function (taskObj) {
-        const today = document.querySelector(".task-group.today");
-        const tomorrow = document.querySelector(".task-group.tomorrow");
-        const week = document.querySelector(".task-group.week");
-        const month = document.querySelector(".task-group.month");
+        const content = document.querySelector("#content");
+
+        const today = document.querySelector(
+          ".task-group.today >.tasks-container"
+        );
+        const tomorrow = document.querySelector(
+          ".task-group.tomorrow >.tasks-container"
+        );
+        const week = document.querySelector(
+          ".task-group.week >.tasks-container"
+        );
+        const month = document.querySelector(
+          ".task-group.month >.tasks-container"
+        );
         const curDate = format(new Date(), "yyyy, MM, d")
           .split(",")
           .map((str) => Number(str));
         const newTask = () => {
           const taskContainer = document.createElement("div");
-          taskContainer.classList.add("task-container");
           const taskName = document.createElement("div");
+          taskContainer.classList.add("task-container");
           taskName.classList.add("task-name");
           taskName.textContent = taskObj.name;
           taskContainer.appendChild(taskName);
           taskContainer.dataset.taskId = taskObj.id;
+          taskName.dataset.taskId = taskObj.id;
           const newTaskContainer = taskContainer;
+          taskName.addEventListener("click", function (e) {
+            e.preventDefault();
+            removeChildrenFrom(content);
+            displayById(e.target.dataset.taskId);
+          });
           return newTaskContainer;
         };
 
@@ -187,11 +251,137 @@ export default class UI {
       return {
         displayById,
         displayByObj,
-        createMain,
+        createTask,
+        createTaskContainer,
         displayInPriorities,
         displayInDates,
       };
     })();
+    const createEditForm = function (task) {
+      const taskId = Number(task.dataset.taskId);
+      const taskObjArr = TaskList.rawTaskArray.filter((task) => {
+        if (task.id === taskId) {
+          return task;
+        }
+      });
+      const taskObj = taskObjArr[0];
+      task.removeChild(task.firstChild);
+
+      const form = document.createElement("form");
+      const formContainer = document.createElement("div");
+      const taskNameContainer = document.createElement("div");
+      const taskDateContainer = document.createElement("div");
+      const taskPriorityContainer = document.createElement("div");
+      const taskDescriptionContainer = document.createElement("div");
+      const taskNameInput = document.createElement("input");
+      const taskNameLabel = document.createElement("p");
+      const taskDescriptionInput = document.createElement("input");
+      const taskDescriptionLabel = document.createElement("p");
+      const taskDateInput = document.createElement("input");
+      const taskDateLabel = document.createElement("p");
+      const taskPriorityInput = document.createElement("input");
+      const taskPriorityLabel = document.createElement("p");
+      const confirmTaskBtn = document.createElement("button");
+      const lowPriorityBtn = document.createElement("button");
+      const mediumPriorityBtn = document.createElement("button");
+      const highPriorityBtn = document.createElement("button");
+
+      taskDateContainer.classList.add("detail-container");
+      taskDescriptionContainer.classList.add("detail-container");
+      taskNameContainer.classList.add("detail-container");
+      taskPriorityContainer.classList.add("detail-container");
+
+      taskNameInput.value = taskObj.name;
+      taskNameInput.classList.add("task-name");
+      taskNameInput.setAttribute("type", "text");
+      taskNameLabel.textContent = "Task name: ";
+      taskNameLabel.classList.add("label");
+
+      taskDescriptionInput.classList.add("task-description");
+      taskDescriptionInput.setAttribute("type", "text");
+      taskDescriptionInput.value = taskObj.description;
+      taskDescriptionLabel.textContent = "Task description: ";
+      taskDescriptionLabel.classList.add("label");
+
+      taskDateInput.classList.add("task-date");
+      taskDateInput.setAttribute("type", "date");
+      taskDateInput.value = taskObj.date.join("-");
+      taskDateLabel.textContent = "Task date: ";
+      taskDateLabel.classList.add("label");
+
+      taskPriorityLabel.textContent = "Priority: ";
+      taskPriorityLabel.classList.add("label");
+      lowPriorityBtn.classList.add("priority-btn");
+      lowPriorityBtn.classList.add("low");
+      mediumPriorityBtn.classList.add("priority-btn");
+      mediumPriorityBtn.classList.add("medium");
+      highPriorityBtn.classList.add("priority-btn");
+      highPriorityBtn.classList.add("high");
+
+      const priorityBtns = [lowPriorityBtn, mediumPriorityBtn, highPriorityBtn];
+      priorityBtns.forEach((el) => {
+        el.addEventListener("click", function (e) {
+          e.preventDefault();
+          UI.DisplayFunctions.clearPriority();
+          UI.DisplayFunctions.checkPriority(e.target);
+        });
+      });
+
+      confirmTaskBtn.textContent = "Confirm";
+      confirmTaskBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        const container = e.target.parentNode.parentNode;
+        const taskId = Number(e.target.parentNode.parentNode.dataset.taskId);
+        const taskInputArr = UI.DisplayFunctions.getModalInput(
+          e.target.parentNode
+        );
+        const updatedTask = new Task(...taskInputArr);
+
+        const taskArr = TaskList.rawTaskArray.filter((task) => {
+          if (taskId === task.id) {
+            return task;
+          }
+        });
+        const taskObj = taskArr[0];
+        removeTaskById(taskObj.id);
+
+        taskObj.name = updatedTask.name;
+        taskObj.description = updatedTask.description;
+        taskObj.priority = updatedTask.priority;
+        taskObj.project = updatedTask.project;
+
+        e.target.parentNode.remove();
+
+        Project.addNewProject();
+        UI.DisplayFunctions.closeModal();
+        UI.DisplayFunctions.refreshProjectsInForm();
+        UI.DisplayFunctions.displayTask.displayInPriorities(taskObj);
+        UI.DisplayFunctions.displayTask.displayInDates(taskObj);
+        container.append(UI.DisplayFunctions.displayTask.createTask(taskObj));
+      });
+
+      taskNameContainer.append(taskNameLabel, taskNameInput);
+      taskDateContainer.append(taskDateLabel, taskDateInput);
+      taskPriorityContainer.append(
+        taskPriorityLabel,
+        lowPriorityBtn,
+        mediumPriorityBtn,
+        highPriorityBtn
+      );
+      taskDescriptionContainer.append(
+        taskDescriptionLabel,
+        taskDescriptionInput
+      );
+      form.classList.add("edit-task-container");
+      form.append(
+        taskNameContainer,
+        taskDateContainer,
+        taskPriorityContainer,
+        taskDescriptionContainer,
+        confirmTaskBtn
+      );
+      return form;
+    };
     const refreshProjectsInForm = function () {
       const taskProjects = document.getElementById("task-project");
       removeChildrenFrom(taskProjects);
@@ -202,40 +392,45 @@ export default class UI {
       });
     };
     const removeChildrenFrom = function (parentNode) {
-      while (parent.firstChild) {
-        parent.removeChild(parent.firstChild);
+      while (parentNode.lastChild) {
+        parentNode.removeChild(parentNode.lastChild);
       }
     };
-    const removeTask = function (node) {
-      const taskId = node.getAttribute("data-task-id");
+    const toggleHide = function (node) {
+      if (node.classList.contains("hide")) {
+        node.classList.remove("hide");
+      } else {
+        node.classList.add("hide");
+      }
+    };
+    const removeTaskById = function (taskId) {
+      // const taskId = node.getAttribute("data-task-id");
       const allTaskElements = document.querySelectorAll(
         `[data-task-id='${taskId}']`
       );
       allTaskElements.forEach((el) => el.remove());
     };
-    const getModalInput = function () {
+    const getModalInput = function (node) {
       const getName = function () {
-        return document.getElementById("task-name").value;
+        return node.querySelector(".task-name").value;
       };
       const getDescription = function () {
-        return document.getElementById("task-description").value;
+        return node.querySelector(".task-description").value;
       };
       const getDate = function () {
-        const date = document.getElementById("task-date").value;
+        const date = node.querySelector(".task-date").value;
         const dateArr = date.split("-");
         const numberDateArr = dateArr.map((string) => Number(string));
-        // const formattedInput = input.replaceAll("-", ",");
-        // const date = format(new Date(formattedInput), "d. LLLL(uu)");
         return numberDateArr;
       };
       const getPriority = function () {
-        const checkedEl = document.querySelector(".checked-priority");
+        const checkedEl = node.querySelector(".checked-priority");
         const classArr = Array.from(checkedEl.classList);
 
         return classArr[1];
       };
       const getProject = function () {
-        return document.getElementById("task-description").value;
+        return node.querySelector(".task-description").value;
       };
       const name = getName();
       const description = getDescription();

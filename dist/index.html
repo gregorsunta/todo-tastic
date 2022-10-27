@@ -26,24 +26,28 @@
             <img src="./images/tomorrow-icon.svg" class="icon" />
             <p>Today</p>
           </div>
+          <div class="tasks-container"></div>
         </div>
         <div class="task-group tomorrow">
           <div class="group-title">
             <img src="./images/tomorrow-icon.svg" class="icon" />
             <p>Tomorrow</p>
           </div>
+          <div class="tasks-container"></div>
         </div>
         <div class="task-group month">
           <div class="group-title">
             <img src="./images/calendar-icon.svg" class="icon" />
             <p>This month</p>
           </div>
+          <div class="tasks-container"></div>
         </div>
         <div class="task-group priority high">
           <div class="group-title">
             <img src="./images/caution-icon.svg" class="icon" />
             <p>High priority</p>
           </div>
+          <div class="tasks-container"></div>
         </div>
         <!-- <div class="task-group priority medium">Medium priority</div> -->
         <!-- <div class="task-group priority low">Low priority</div> -->
@@ -61,32 +65,48 @@
       <form id="modal-task-form">
         <div class="task-input">
           <label for="task-name">Task name:</label>
-          <input id="task-name" name="task-name" type="text" required />
+          <input
+            class="task-name"
+            id="task-name"
+            name="task-name"
+            type="text"
+            required
+          />
         </div>
         <div class="task-input">
           <label for="task-description">Description:</label>
-          <input id="task-description" name="task-description" type="text" />
+          <input
+            class="task-description"
+            id="task-description"
+            name="task-description"
+            type="text"
+          />
         </div>
         <div class="task-input task-priority-section">
-          Task priority:
+          <p>Task priority:</p>
           <button class="priority-btn low" type="button"></button>
           <button class="priority-btn medium" type="button"></button>
           <button class="priority-btn high" type="button"></button>
         </div>
         <div class="task-input">
           <label for="task-date">Due date</label>
-          <input id="task-date" name="task-date" type="date" />
+          <input
+            class="task-date"
+            id="task-date"
+            name="task-date"
+            type="date"
+          />
         </div>
         <div class="task-input">
           <label for="task-project">Select project: </label>
-          <input type="text" list="task-project" />
+          <input class="task-project" type="text" list="task-project" />
           <datalist id="task-project"> </datalist>
         </div>
         <button class="modal-confirm-btn" type="submit">Add new task</button>
       </form>
     </div>
     <footer>
-      <p>This is the footer</p>
+      <p>Copyright © 2022 gregorsunta</p>
     </footer>
   </body>
 </html>
