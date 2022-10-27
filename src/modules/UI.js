@@ -1,4 +1,5 @@
 import Task from "./Task";
+import Storage from "./Storage";
 import TaskList from "./TaskList";
 import Project from "./Project";
 import { format, yearsToMonths } from "date-fns";
@@ -66,6 +67,10 @@ export default class UI {
       const taskInputModal = document.querySelector(".modal");
       taskInputModal.classList.add("hide");
     };
+    // const displayTasksByProperty = function (property, value) {
+    //   const filteredTasks = TaskList.filter((task) => task[property] === value);
+    //   filteredTasks.forEach((task) => displayTask.createTaskContainer(task));
+    // };
     const displayTask = (function () {
       const displayById = function (taskId) {
         const _taskId = Number(taskId);
@@ -344,11 +349,7 @@ export default class UI {
         });
         const taskObj = taskArr[0];
         removeTaskById(taskObj.id);
-
-        taskObj.name = updatedTask.name;
-        taskObj.description = updatedTask.description;
-        taskObj.priority = updatedTask.priority;
-        taskObj.project = updatedTask.project;
+        TaskList.editTask(taskObj, updatedTask);
 
         e.target.parentNode.remove();
 
@@ -439,6 +440,7 @@ export default class UI {
       const project = getProject();
       return [name, description, priority, date, project];
     };
+
     return {
       // displayTasksInGroups,
       checkPriority,

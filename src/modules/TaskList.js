@@ -1,33 +1,17 @@
-import Task from "./Task";
-import UI from "./UI";
-import { compareAsc, format } from "date-fns";
+import Storage from "./Storage.js";
 
-class TaskList {
-  static rawTaskArray = [
-    {
-      name: "Change light bulb - custom",
-      description: "Change it in the garage",
-      priority: "high",
-      date: [2022, 10, 13],
-      project: "Bananas",
-      id: 1,
-    },
-    {
-      name: "Create business plan - custom",
-      description: "Create business plan for flamingo united",
-      priority: "low",
-      date: [2022, 10, 14],
-      project: "traktor",
-      id: 2,
-    },
-  ];
+export default class TaskList {
+  static rawTaskArray = [];
   static addNewTask = function (newTask) {
     const taskId = TaskList.rawTaskArray.length + 1;
-    console.log(taskId);
     newTask.id = taskId;
     TaskList.rawTaskArray.push(newTask);
-    console.log(TaskList.rawTaskArray);
+    Storage.updateStorage(TaskList.rawTaskArray);
+  };
+  static editTask = function (oldTaskObj, updatedTaskObj) {
+    oldTaskObj.name = updatedTaskObj.name;
+    oldTaskObj.description = updatedTaskObj.description;
+    oldTaskObj.priority = updatedTaskObj.priority;
+    oldTaskObj.project = updatedTaskObj.project;
   };
 }
-
-export default TaskList;
