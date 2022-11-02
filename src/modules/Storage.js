@@ -3,7 +3,7 @@ export default class Storage {
     localStorage.setItem("taskList", JSON.stringify(taskList));
   };
   static getStorage = function (key) {
-    console.log(localStorage.getItem(key));
-    return localStorage.getItem(key);
+    console.log(JSON.parse(localStorage.getItem(key)));
+    return JSON.parse(localStorage.getItem(key));
   };
 }

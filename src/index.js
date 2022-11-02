@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
   UI.DisplayController.addMainEventListeners();
   UI.DisplayController.addModalEventListeners();
   const taskList = Storage.getStorage("taskList");
+  console.log(typeof taskList);
   taskList.forEach((task) => {
     UI.DisplayFunctions.displayTask.displayByObj(task);
     UI.DisplayFunctions.displayTask.displayInDates(task);
@@ -16,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   UI.DisplayFunctions.refreshProjectsInForm();
 });
+// document.addEventListener();
 
 // content.append(
 //   TaskList.rawTaskArray.forEach((task) =>

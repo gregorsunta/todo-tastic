@@ -73,8 +73,10 @@ export default class UI {
     // };
     const displayTask = (function () {
       const displayById = function (taskId) {
+        console.log("displaying...");
+        const tasks = Storage.getStorage("taskList");
         const _taskId = Number(taskId);
-        TaskList.rawTaskArray.forEach((task) => {
+        tasks.forEach((task) => {
           if (task.id == _taskId) {
             content.appendChild(createTaskContainer(task));
           }
@@ -189,6 +191,7 @@ export default class UI {
           e.preventDefault();
           removeChildrenFrom(content);
           displayById(e.target.dataset.taskId);
+          console.log("button functioning...");
         });
         if (taskObj.priority === "high") {
           highPriorityContainer.appendChild(taskContainer);
@@ -262,16 +265,13 @@ export default class UI {
         displayInDates,
       };
     })();
-    const createEditForm = function (task) {
-      const taskId = Number(task.dataset.taskId);
-      const taskObjArr = TaskList.rawTaskArray.filter((task) => {
-        if (task.id === taskId) {
-          return task;
-        }
+    const createEditForm = function (taskEl) {
+      const taskId = Number(taskEl.dataset.taskId);
+      const taskArr = Storage.getStorage("taskList");
+      const taskObj = taskArr.find(({ id }) => {
+        return id === taskId;
       });
-      const taskObj = taskObjArr[0];
-      task.removeChild(task.firstChild);
-
+      taskEl.removeChild(taskEl.firstChild);
       const form = document.createElement("form");
       const formContainer = document.createElement("div");
       const taskNameContainer = document.createElement("div");
@@ -342,12 +342,10 @@ export default class UI {
         );
         const updatedTask = new Task(...taskInputArr);
 
-        const taskArr = TaskList.rawTaskArray.filter((task) => {
-          if (taskId === task.id) {
-            return task;
-          }
+        const taskObj = taskArr.find(({ id }) => {
+          return id === taskId;
         });
-        const taskObj = taskArr[0];
+
         removeTaskById(taskObj.id);
         TaskList.editTask(taskObj, updatedTask);
 
