@@ -48,6 +48,7 @@ export default class UI {
     return { addMainEventListeners, addModalEventListeners };
   })();
   static DisplayFunctions = (function () {
+    const taskArr = Storage.getStorage("taskList");
     const checkPriority = function (el) {
       el.classList.add("checked-priority");
     };
@@ -67,16 +68,12 @@ export default class UI {
       const taskInputModal = document.querySelector(".modal");
       taskInputModal.classList.add("hide");
     };
-    // const displayTasksByProperty = function (property, value) {
-    //   const filteredTasks = TaskList.filter((task) => task[property] === value);
-    //   filteredTasks.forEach((task) => displayTask.createTaskContainer(task));
-    // };
     const displayTask = (function () {
       const displayById = function (taskId) {
         console.log("displaying...");
-        const tasks = Storage.getStorage("taskList");
         const _taskId = Number(taskId);
-        tasks.forEach((task) => {
+        console.log(taskArr);
+        taskArr.forEach((task) => {
           if (task.id == _taskId) {
             content.appendChild(createTaskContainer(task));
           }
@@ -129,7 +126,12 @@ export default class UI {
         });
         taskDeleteIcon.addEventListener("click", function (e) {
           e.preventDefault();
-          removeTaskById(e.currentTarget.parentNode);
+          const taskId = Number(e.target.parentNode.dataset.taskId);
+          const task = TaskList.taskArray.find(({ id }) => {
+            return id === taskId;
+          });
+          removeTaskById(taskId);
+          TaskList.removeTask(task);
         });
         taskEditIcon.addEventListener("click", function (e) {
           e.preventDefault();
@@ -267,7 +269,7 @@ export default class UI {
     })();
     const createEditForm = function (taskEl) {
       const taskId = Number(taskEl.dataset.taskId);
-      const taskArr = Storage.getStorage("taskList");
+      console.log(taskId);
       const taskObj = taskArr.find(({ id }) => {
         return id === taskId;
       });
@@ -341,22 +343,23 @@ export default class UI {
           e.target.parentNode
         );
         const updatedTask = new Task(...taskInputArr);
-
         const taskObj = taskArr.find(({ id }) => {
           return id === taskId;
         });
-
         removeTaskById(taskObj.id);
         TaskList.editTask(taskObj, updatedTask);
 
         e.target.parentNode.remove();
 
+        // removeFromGroups(taskObj);
         Project.addNewProject();
         UI.DisplayFunctions.closeModal();
         UI.DisplayFunctions.refreshProjectsInForm();
-        UI.DisplayFunctions.displayTask.displayInPriorities(taskObj);
-        UI.DisplayFunctions.displayTask.displayInDates(taskObj);
-        container.append(UI.DisplayFunctions.displayTask.createTask(taskObj));
+        UI.DisplayFunctions.displayTask.displayInPriorities(updatedTask);
+        UI.DisplayFunctions.displayTask.displayInDates(updatedTask);
+        container.append(
+          UI.DisplayFunctions.displayTask.createTask(updatedTask)
+        );
       });
 
       taskNameContainer.append(taskNameLabel, taskNameInput);
@@ -384,7 +387,7 @@ export default class UI {
     const refreshProjectsInForm = function () {
       const taskProjects = document.getElementById("task-project");
       removeChildrenFrom(taskProjects);
-      TaskList.rawTaskArray.forEach((el) => {
+      taskArr.forEach((el) => {
         const option = document.createElement("option");
         option.textContent = el.project;
         taskProjects.append(option);
@@ -395,6 +398,20 @@ export default class UI {
         parentNode.removeChild(parentNode.lastChild);
       }
     };
+    const removeFromGroups = function (selectedTask) {
+      const allTasks = document.querySelectorAll(
+        ".tasks-container .task-container"
+      );
+      console.log(allTasks);
+      allTasks.forEach((task) => {
+        console.log(task.dataset.taskId);
+        // console.log(selectedTask.id);
+
+        if (task.dataset.taskId === selectedTask.id) {
+          console.log("deleting");
+        }
+      });
+    };
     const toggleHide = function (node) {
       if (node.classList.contains("hide")) {
         node.classList.remove("hide");
@@ -403,7 +420,6 @@ export default class UI {
       }
     };
     const removeTaskById = function (taskId) {
-      // const taskId = node.getAttribute("data-task-id");
       const allTaskElements = document.querySelectorAll(
         `[data-task-id='${taskId}']`
       );
